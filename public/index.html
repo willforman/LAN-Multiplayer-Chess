@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="./index.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="HandheldFriendly" content="true">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Chess</h1>
+        
+        <form autocomplete="off" class="name">
+            <input type="text" id="nameField" placeholder="username" required>
+            <input type="submit" id="nameButton">
+        </form>
+
+        <p id="nameText">Username:</p>
+        
+        <button id="host">Host a game</button>
+
+        <h3>Open Rooms:</h3>
+        <ul class="games"></ul>
+    </div>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

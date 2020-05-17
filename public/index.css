@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    background-color: #44B4A5;
+}
+
+.container {
+    text-align: center;
+    width: 20rem;
+    background-color: white;
+    padding: 2rem 5rem;
+    border-radius: 1.5rem;
+}
+
+#nameText {
+    padding-bottom: .5rem;
+}
+
+.games {
+    list-style: none;
+    padding: 0;
+}

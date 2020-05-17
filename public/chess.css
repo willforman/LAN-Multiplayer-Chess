@@ -1,0 +1,58 @@
+body {
+    display: block;
+    background-color: cyan;
+}
+
+#container {
+    width: 28rem;
+}
+
+#board {
+    width: 24rem;
+    height: 24rem;
+    padding: 2rem;
+}
+
+.square {
+    float: left;
+    width: 3rem;
+    height: 3rem;
+    margin: 0px;
+    text-align: center;
+}
+
+.light {
+    background-color: #CCCEEC;
+}
+
+.dark {
+    background-color: #1796D5;
+}
+
+i {
+    padding-top: .5rem;
+    font-size: 2rem;
+    stroke: black;
+    stroke-width: 10;
+    pointer-events: none;
+}
+
+.square.availMove {
+    background-color: red;
+}
+
+.square.lastMove {
+    background-color: green;
+}
+
+.selected {
+    background-color: blue;
+}
+
+#inCheck {
+    color: red;
+}
+
+h2 {
+    text-align: center;
+}
