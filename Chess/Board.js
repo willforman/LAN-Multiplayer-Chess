@@ -15,7 +15,7 @@ class Board {
         for (let row = 0; row < 8; row++) {
             this.board.push([]);
             for (let col = 0; col < 8; col++) {
-                this.board[row][col] = addPiece(row, col);
+                this.board[row][col] = addPiece(row);
             }
         }
 

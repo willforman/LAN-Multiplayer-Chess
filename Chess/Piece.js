@@ -1,8 +1,7 @@
 class Piece {
-    constructor(row, col) {
-        this.position = [row, col];
-        
+    constructor(row) {
         // determines what team it's on based on starting position
+        // 0: white, 1: black
         if (row <= 1) {
             this.team = 1;
         }
@@ -23,8 +22,8 @@ class Piece {
 }
 
 class Pawn extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-pawn";
     }
 
@@ -35,8 +34,8 @@ class Pawn extends Piece {
 }
 
 class Bishop extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-bishop";
     }
 
@@ -47,8 +46,8 @@ class Bishop extends Piece {
 }
 
 class Knight extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-knight";
 
     }
@@ -60,8 +59,8 @@ class Knight extends Piece {
 }
 
 class Rook extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-rook";
     }
 
@@ -72,8 +71,8 @@ class Rook extends Piece {
 }
 
 class Queen extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-queen";
     }
 
@@ -85,8 +84,8 @@ class Queen extends Piece {
 }
 
 class King extends Piece {
-    constructor(row, col) {
-        super(row, col);
+    constructor(row) {
+        super(row);
         this.icon = "fas fa-chess-king";
     }
 
