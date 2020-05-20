@@ -15,7 +15,7 @@ class Board {
         for (let row = 0; row < 8; row++) {
             this.board.push([]);
             for (let col = 0; col < 8; col++) {
-                this.board[row][col] = addPiece(row);
+                this.board[row][col] = addPiece(row, col);
             }
         }
 
@@ -29,7 +29,7 @@ class Board {
             switch (row) {
                 case 1:
                 case 6: 
-                    return new Pawn(row, col);
+                    return new Pawn(row);
                 case 0:
                 case 7:
                     return getPieceByCol(row, col);
@@ -38,23 +38,23 @@ class Board {
             // used for last row where pieces are in specific order
             function getPieceByCol(row, col) {
                 if (col == 0 || col == 7) {
-                    return new Rook(row, col);
+                    return new Rook(row);
                 }
                 
                 else if (col == 1 || col == 6) {
-                    return new Knight(row, col);
+                    return new Knight(row);
                 }
                 
                 else if (col == 2 || col == 5 ) {
-                    return new Bishop(row, col);
+                    return new Bishop(row);
                 } 
     
                 else if (col == 3) {
-                    return new Queen(row, col);
+                    return new Queen(row);
                 }
     
                 else {
-                    return new King(row, col);
+                    return new King(row);
                 }
             }
         }

@@ -57,30 +57,36 @@ class Game {
         return teamMoves;
     }
 
-    // this function moves piece than sets the new covered squares
+    // used when testing moves if they are legal
     movePiece(initialPosition, finalPosition) {
-        const team = this.board.getPiece(initialPosition).team;
-
         this.board.movePiece(initialPosition, finalPosition);
         this.setCoveredSquares();
-        
-        // returns team so that server knows what team to
-        // look if theres check
-        return team;
-        // // gets the team that didn't move
-        // const teamUpNext = team ? 0 : 1;
+    }
 
-        // // the other team could now be in check, so check for that
-        // const isCheck = this.lookForCheck(teamUpNext);
-        // if (isCheck) {
-        //     if (this.isCheckMate(teamUpNext)) {
-        //         return teamUpNext ? "Black wins" : "White wins";
-        //     }
-        //     return "check";
-        // }
-        // else {
-        //     return null;
-        // }
+    // used only when a player moves a piece
+    playerMove(initialPosition, finalPosition) {
+        const piece = this.board.getPiece(initialPosition);
+        
+        this.movePiece(initialPosition, finalPosition);
+        
+        if (piece.firstMove) {
+            piece.firstMove = false;
+        }
+
+        // need special communication to client when a player is castling
+        // returns the initial and final location of the rook castling with
+        if (piece.constructor.name == "King") {
+            const colChange = finalPosition[1] - initialPosition[1];
+            if (colChange == 2 || colChange == -2) {
+                const rookRow = initialPosition[0]; // row of rook is same as king
+                // if king is going to right, rook is right corner (col = 7)
+                // if king is going to left, rook is left corner (col = 0)
+                const rookCol = colChange == 2 ? 7 : 0;
+                const finalRookCol = colChange == 2 ? 5 : 3;
+    
+                return [[rookRow, rookCol], [rookRow, finalRookCol]];
+            }
+        }
     }
 
     // gets all moves of piece
@@ -131,7 +137,7 @@ class Game {
 
         // tests to rule out move
 
-        // testif piece is in bounds of the board
+        // test if piece is in bounds of the board
         if (finalPosition[0] < 0 || finalPosition[0] > 7) {
             return null;
         }
@@ -151,10 +157,7 @@ class Game {
         if (piece.constructor.name == "Pawn") {
             // pawn can move two squares on first move
             // tells if it's first move based on what row it's in
-            if (piece.team && position[0] != 1 && change[0] == 2) {
-                return null;
-            }
-            else if (!piece.team && position[0] != 6 && change[0] == -2) {
+            if (!piece.firstMove && (change[0] == 2 || change[0] == -2)) {
                 return null;
             }
             // pawn can move one square diagonally when capturing
@@ -168,6 +171,23 @@ class Game {
                 if (change[1] == 0) {
                     return null;
                 }
+            }
+        }
+
+        // check for castling
+        if (piece.constructor.name == "King" && (change[1] == 2 || change[1] == -2)) {
+            if (!piece.firstMove) {
+                return null;
+            }
+            // gets column of rook based on if king is going to right or left
+            const rookCol = change[1] == 2 ? 7 : 0;
+            const rookRow = piece.team == 0 ? 7 : 0;
+            const rook = this.board.getPiece([rookRow, rookCol]);
+            if (!rook) {
+                return null;
+            }
+            if (!rook.firstMove) {
+                return null;
             }
         }
 
@@ -243,11 +263,5 @@ class Game {
         }
     }
 }
-
-// const game = new Game();
-
-// game.move([7, 3], [1, 5]);
-
-// game.isCheckMate(1);
 
 module.exports = Game;

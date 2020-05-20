@@ -171,12 +171,12 @@ function clickMove(event) {
 // moves piece and sends to the server the move
 // 0, 0 on board is top left
 function move(initialSquare, finalSquare) {
-    movePiece(initialSquare, finalSquare);
-
     const initialPosition = convSquareToPos(initialSquare);
     const finalPosition = convSquareToPos(finalSquare);
     
     socket.emit("move", playerName, roomName, initialPosition, finalPosition);
+
+    movePiece(initialSquare, finalSquare);
     
     moveNext = false;
     resultText.innerHTML = "Waiting for opponent";
@@ -186,6 +186,16 @@ function move(initialSquare, finalSquare) {
         lastMoveSquare.classList.remove("lastMove");
         lastMoveSquare = null;
     }
+}
+
+// called when this player castles, moves the rook after the king is moved
+socket.on("castling", (rookLocs) => castling(rookLocs));
+
+function castling(rookLocs) {
+    const initialRookSquare = convPosToSquare(rookLocs[0]);
+    const finalRookSquare = convPosToSquare(rookLocs[1]);
+
+    movePiece(initialRookSquare, finalRookSquare);
 }
     
 // moves the piece on the board
@@ -213,11 +223,15 @@ function convPosToSquare(position) {
     return squares[position[0]][position[1]];
 }
 
-socket.on("opponent move", (initialPosition, finalPosition, availMoves, check) => {
+socket.on("opponent move", (initialPosition, finalPosition, availMoves, check, castlingLocs) => {
     const initialSquare = convPosToSquare(initialPosition);
     const finalSquare = convPosToSquare(finalPosition);
     
     movePiece(initialSquare, finalSquare);
+
+    if (castlingLocs) {
+        castling(castlingLocs);
+    }
 
     // highlights square of opponent's move so user can see
     finalSquare.classList.add("lastMove");

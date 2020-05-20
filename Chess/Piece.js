@@ -25,6 +25,7 @@ class Pawn extends Piece {
     constructor(row) {
         super(row);
         this.icon = "fas fa-chess-pawn";
+        this.firstMove = true;
     }
 
     getMovements() {
@@ -62,6 +63,7 @@ class Rook extends Piece {
     constructor(row) {
         super(row);
         this.icon = "fas fa-chess-rook";
+        this.firstMove = true;
     }
 
     getMovements() {
@@ -87,11 +89,12 @@ class King extends Piece {
     constructor(row) {
         super(row);
         this.icon = "fas fa-chess-king";
+        this.firstMove = true;
     }
 
     getMovements() {
         return [ [1, 0], [-1, 0], [0, 1], [0, -1],
-            [1, 1], [1, -1], [-1, 1], [-1, -1] ];
+            [1, 1], [1, -1], [-1, 1], [-1, -1], [0, 2], [0, -2]];
     }
 }
 

@@ -111,8 +111,17 @@ io.on("connection", (socket) => {
         // finds correct room and gets it's game
         const game = rooms[roomName].game;
         
-        // adds move to game and gets team back
-        const teamMakingMove = game.movePiece(initialPosition, finalPosition);
+        // gets team that is moving
+        const teamMakingMove = game.board.getPiece(initialPosition).team;
+
+        // moves piece and is returned null, unless the move is castling,
+        // which returns initial and final piece locations
+        const castling = game.playerMove(initialPosition, finalPosition);
+
+        // has to tell the client that just moved to also move the rook
+        if (castling) {
+            socket.emit("castling", castling);
+        }
         
         // gets the team that didn't make the move
         const otherTeam = teamMakingMove ? 0 : 1;
@@ -135,7 +144,7 @@ io.on("connection", (socket) => {
 
             // gets new available moves for opponent who's turn it is now
             socket.to(roomName).broadcast.emit("opponent move", initialPosition, 
-            finalPosition, oppAvailableMoves, check);
+            finalPosition, oppAvailableMoves, check, castling);
         }
     });
 
